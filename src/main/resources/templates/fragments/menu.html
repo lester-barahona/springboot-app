@@ -1,0 +1,36 @@
+ <nav th:fragment="navbar" class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+   <a class="navbar-brand" th:href="@{/}">EmpleosApp</a>
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+     <span class="navbar-toggler-icon"></span>
+   </button>
+
+   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+     <ul class="navbar-nav mr-auto">
+       <li class="nav-item">
+         <a class="nav-link" th:classappend="${#request.requestURI == '/' ? 'active':''}" th:href="@{/}">Home</a>
+       </li>
+       <li class="nav-item"  sec:authorize="hasAnyAuthority('SUPERVISOR','ADMINISTRADOR')">
+         <a class="nav-link" th:classappend="${#request.requestURI == '/vacantes/indexPaginate' ? 'active':''}" th:href="@{/vacantes/indexPaginate}">Vacantes</a>
+       </li>
+       <li class="nav-item"  sec:authorize="hasAnyAuthority('SUPERVISOR','ADMINISTRADOR')">
+          <a class="nav-link" th:classappend="${#request.requestURI == '/categories/index' ? 'active':''}" th:href="@{/categories/index}">Categorias</a>
+       </li>
+       
+        <li class="nav-item"  sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
+          <a class="nav-link" th:classappend="${#request.requestURI == '/usuarios/index' ? 'active':''}" th:href="@{/usuarios/index}">Usuarios</a>
+       </li>
+               
+     </ul> 
+    <div sec:authorize="isAnonymous()"> 
+     <a class="btn btn-outline-info" th:href="@{/index}">Ingresar</a>&nbsp;
+      <a class="btn btn-outline-info mr-2" th:href="@{/signup}">Registrarse</a>
+      </div>
+     <!--   <span th:if="${session.usuario != null}" class="text-light" th:text="'Bienvenido ' + ${session.usuario.nombre}"></span>&nbsp; -->
+      <div sec:authorize="isAuthenticated()">
+      
+      <span class="text-dark mr-3">Bienvenido</span>&nbsp;<span class="text-dark mr-3" sec:authentication="name"></span> 
+       <a class="btn btn-outline-warning" th:href="@{/logout}">Salir</a> 
+   	</div>
+   	
+   </div>
+ </nav>
